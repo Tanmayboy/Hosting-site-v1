@@ -3,30 +3,7 @@ import React from "react";
 
 function MainComponent() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isVisible, setIsVisible] = useState({});
   const [selectedLocation, setSelectedLocation] = useState(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          setIsVisible((prev) => ({
-            ...prev,
-            [entry.target.id]: entry.isIntersecting,
-          }));
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    document.querySelectorAll("section[id]").forEach((section) => {
-      observer.observe(section);
-    });
-
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
 
   const locations = [
     { name: "New York", lat: 40.7128, lng: -74.006 },
@@ -117,10 +94,7 @@ function MainComponent() {
 
       <main className="relative">
         <section className="pt-32 pb-20 px-4">
-          <div
-            className="max-w-7xl mx-auto text-center"
-            style={{ animation: "fadeIn 1s ease-out" }}
-          >
+          <div className="max-w-7xl mx-auto text-center">
             <h1 className="text-4xl md:text-6xl font-bold mb-6">
               Level Up Your <span className="text-[#00ff88]">Game Server</span>{" "}
               Experience
@@ -130,10 +104,7 @@ function MainComponent() {
               Start your server in seconds.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <button
-                className="bg-[#00ff88] text-black px-8 py-3 rounded-full font-semibold hover:bg-[#00dd77] transition-colors"
-                style={{ animation: "pulse 2s infinite" }}
-              >
+              <button className="bg-[#00ff88] text-black px-8 py-3 rounded-full font-semibold hover:bg-[#00dd77] transition-colors">
                 Deploy Server Now
               </button>
               <button className="border border-[#00ff88] text-[#00ff88] px-8 py-3 rounded-full font-semibold hover:bg-[#00ff88]/10 transition-colors">
@@ -142,47 +113,24 @@ function MainComponent() {
             </div>
           </div>
         </section>
-        <section
-          id="features"
-          className={`py-20 px-4 bg-[#111111] ${
-            isVisible["features"] ? "visible" : ""
-          }`}
-        >
+        <section id="features" className="py-20 px-4 bg-[#111111]">
           <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div
-              className="p-6 rounded-xl bg-[#1a1a1a] border border-[#2a2a2a]"
-              style={{ animation: "fadeIn 1s ease-out 0.2s backwards" }}
-            >
-              <i
-                className="fas fa-server text-[#00ff88] text-3xl mb-4"
-                style={{ animation: "float 3s ease-in-out infinite" }}
-              ></i>
+            <div className="p-6 rounded-xl bg-[#1a1a1a] border border-[#2a2a2a]">
+              <i className="fas fa-server text-[#00ff88] text-3xl mb-4"></i>
               <h3 className="text-xl font-semibold mb-3">Instant Deployment</h3>
               <p className="text-gray-400">
                 Get your game server up and running in less than 60 seconds
               </p>
             </div>
-            <div
-              className="p-6 rounded-xl bg-[#1a1a1a] border border-[#2a2a2a]"
-              style={{ animation: "fadeIn 1s ease-out 0.4s backwards" }}
-            >
-              <i
-                className="fas fa-shield-alt text-[#00ff88] text-3xl mb-4"
-                style={{ animation: "float 3s ease-in-out infinite" }}
-              ></i>
+            <div className="p-6 rounded-xl bg-[#1a1a1a] border border-[#2a2a2a]">
+              <i className="fas fa-shield-alt text-[#00ff88] text-3xl mb-4"></i>
               <h3 className="text-xl font-semibold mb-3">DDoS Protection</h3>
               <p className="text-gray-400">
                 Enterprise-grade protection against attacks, included free
               </p>
             </div>
-            <div
-              className="p-6 rounded-xl bg-[#1a1a1a] border border-[#2a2a2a]"
-              style={{ animation: "fadeIn 1s ease-out 0.6s backwards" }}
-            >
-              <i
-                className="fas fa-globe text-[#00ff88] text-3xl mb-4"
-                style={{ animation: "float 3s ease-in-out infinite" }}
-              ></i>
+            <div className="p-6 rounded-xl bg-[#1a1a1a] border border-[#2a2a2a]">
+              <i className="fas fa-globe text-[#00ff88] text-3xl mb-4"></i>
               <h3 className="text-xl font-semibold mb-3">Global Network</h3>
               <p className="text-gray-400">
                 20+ locations worldwide for the lowest possible latency
@@ -340,28 +288,6 @@ function MainComponent() {
       </footer>
 
       <style jsx global>{`
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes float {
-          0% { transform: translateY(0px); }
-          50% { transform: translateY(-10px); }
-          100% { transform: translateY(0px); }
-        }
-
-        @keyframes pulse {
-          0% { transform: scale(1); }
-          50% { transform: scale(1.05); }
-          100% { transform: scale(1); }
-        }
-
-        @keyframes markerPulse {
-          0% { transform: scale(1); opacity: 0.8; }
-          100% { transform: scale(2.5); opacity: 0; }
-        }
-
         .world-map-container {
           position: relative;
           width: 100%;
@@ -397,7 +323,6 @@ function MainComponent() {
           height: 16px;
           background: rgba(0, 255, 136, 0.3);
           border-radius: 50%;
-          animation: markerPulse 2s infinite;
         }
 
         .location-tooltip {
@@ -423,17 +348,6 @@ function MainComponent() {
           transform: translateX(-50%);
           border: 6px solid transparent;
           border-top-color: #00ff88;
-        }
-
-        section {
-          opacity: 1;
-          transform: translateY(0);
-          transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
-
-        section.visible {
-          opacity: 1;
-          transform: translateY(0);
         }
       `}</style>
     </div>
